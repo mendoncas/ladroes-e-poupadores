@@ -30,6 +30,7 @@ public class Poupador extends ProgramaPoupador {
 	// TODO refatorar comportamento com base no saldo da partida
 	// TODO Função de chance para explorar considera mais pesos (cheiro de ladroes, presença de moedas, etc)
 	// TODO mecânica de isca pra um dos poupadores 
+	// TODO refatorar busca de maior e menor nos calculos de distancia pra usar bibliotecas
 
 	public int acao() {
 		System.out.println(sensor.getPosicao().x + " " + sensor.getPosicao().y);
@@ -55,8 +56,8 @@ public class Poupador extends ProgramaPoupador {
 			System.out.println("PQP UM LADRAO");
 		}
 		
-		return this.escolherDirecaoAleatoria();
-	}
+		return this.escolherDirecao();
+}
 	
 	public void decidirObjetivo() {
 		if(this.saldoTotal > 0)
@@ -99,14 +100,13 @@ public class Poupador extends ProgramaPoupador {
 			peso = this.ambicao*(this.lerQuadradoMapaExplorado(direcao))
 				+ this.medo/(sensor.getAmbienteOlfatoPoupador() [this.direcaoParaOlfato[direcao]] + 2)
 				- (int) this.ambicao*this.direcaoTemMoeda(direcao);
-//				- this.calcularDistancia(this.getCoorenadasDirecao(direcao), coordenadasBanco);
 		}
 
 		if(peso <= 0) peso = 1; 
 		return (int) 100/(peso);
 	}
 
-	public int escolherDirecaoAleatoria() {
+	public int escolherDirecao() {
 		ArrayList<Integer> direcoesComPeso = new ArrayList<Integer>();
 		System.out.println("estou na posição " + sensor.getPosicao().x + "," + sensor.getPosicao().y 
 				+ " tenho " + sensor.getNumeroDeMoedas() + " meu saldo eh " + this.saldoTotal+ " e meu objetivo é " + this.objetivo );
